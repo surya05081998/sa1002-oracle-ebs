@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="postEmployeeNewHireImplementationSubFlow" doc:id="92468234-226f-4aa6-9a23-6cb125ae5209">
+		<logger level="INFO" doc:name="Info: postEmployeeNewhire implementation flow start Logger" doc:id="e1abf1c7-7a28-4c95-9172-adf86478fce4" message="postEmployeeNewhire implementation flow started" />
+		<logger level="INFO" doc:name="Debug: Payload before foreach " doc:id="c050670e-7f62-4b0e-9de4-3db86b536d6f" message="payload before foreach is #[payload]" category="${com.debug.post.Employee.newHire}" />
+		<ee:transform doc:name="Transform Message" doc:id="3bb7e3cd-3a05-455d-b6f7-8cd6a93c50df">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "periodOfServiceId": payload.periodOfServiceId,
+    "personId": payload.personId
+  }]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		<logger level="INFO" doc:name="Info: postEmployeeNewhire implementation flow end Logger" doc:id="644768c8-f76a-4127-838b-44342948e8df" message="postEmployeeNewhire implementation flow ended" />
+	</sub-flow>
+</mule>

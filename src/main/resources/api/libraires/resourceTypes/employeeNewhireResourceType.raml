@@ -1,0 +1,14 @@
+#%RAML 1.0 ResourceType
+post:
+  is:
+    [clientCredentials,transactionId,step,source,errorResponses]
+  body:
+    application/json:
+      type: postEmployeeNewhireRequestDataType
+      example: !include ../../examples/requests/postEmployeeNewHireRequest.json   
+  responses:
+    201:
+      body:
+        application/json:
+          type: postEmployeeNewhireResponseDataType
+          example: !include ../../examples/responses/postEmployeeNewhireResponse.json

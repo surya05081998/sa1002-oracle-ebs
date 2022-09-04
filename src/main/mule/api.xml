@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="sa1002-oracle-ebs-main">
+        <http:listener config-ref="sa1002-oracle-ebs-httpListenerConfig" path="${http.listener.basePath}">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="sa1002-oracle-ebs-config" />
+        <error-handler ref="MainErrorHandler" />
+    </flow>
+    <flow name="sa1002-oracle-ebs-console">
+        <http:listener config-ref="sa1002-oracle-ebs-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="sa1002-oracle-ebs-config" />
+        <error-handler ref="ConsoleErrorHandler" />
+    </flow>
+    <flow name="post:\employee\newHire:application\json:sa1002-oracle-ebs-config">
+		<logger level="INFO" doc:name="Info: Post employee implementation flow triggered" doc:id="839bc2dc-a26c-4a3d-a2ea-c3df6bcca058" message="Post employee implementation flow triggered"/>
+		<flow-ref doc:name="Flow Reference To postEmployeeNewHireImplementationSubFlow" doc:id="c4513149-6798-44ae-b76c-5cc962c25933" name="postEmployeeNewHireImplementationSubFlow"/>
+    </flow>
+</mule>

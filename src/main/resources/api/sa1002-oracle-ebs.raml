@@ -1,0 +1,28 @@
+#%RAML 1.0
+title: sa1002-oracle-ebs
+description: This is a oracle EBS system api to post employee newhire information into oracle EBS
+version: v1
+protocols:
+  - HTTPS
+  - HTTP
+mediaType: 
+- application/json
+#This is developed by Menda Surya Mohan Rao on 03-09-2022 added 
+
+types:
+  postEmployeeNewhireRequestDataType: !include libraires/dataTypes/requests/postEmployeeNewhireDataType.raml
+  postEmployeeNewhireResponseDataType: !include libraires/dataTypes/responses/postEmployeeNewhireDataType.raml
+
+traits:
+  clientCredentials: !include libraires/traits/clientCredentials.raml
+  transactionId: !include libraires/traits/transactionId.raml
+  step: !include libraires/traits/step.raml
+  source: !include libraires/traits/source.raml
+  errorResponses: !include libraires/traits/errorResponses.raml
+
+resourceTypes:
+  employeeNewhireResourceTypes: !include libraires/resourceTypes/employeeNewhireResourceType.raml
+
+/employee:
+  /newHire:
+    type: employeeNewhireResourceTypes
